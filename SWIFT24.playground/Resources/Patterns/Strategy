@@ -1,0 +1,54 @@
+
+The Strategy pattern is used to define a family of algorithms,
+encapsulate each one as an object, and make them interchangeable.
+This pattern allows the algorithm to vary independently of clients that use it.
+
+
+// Strategy protocol defining the algorithm interface
+protocol PaymentStrategy {
+    func pay(amount: Double)
+}
+
+// Concrete strategies implementing the algorithm
+class CreditCardPayment: PaymentStrategy {
+    func pay(amount: Double) {
+        print("Paid $\(amount) via Credit Card.")
+    }
+}
+
+class PayPalPayment: PaymentStrategy {
+    func pay(amount: Double) {
+        print("Paid $\(amount) via PayPal.")
+    }
+}
+
+class ApplePayPayment: PaymentStrategy {
+    func pay(amount: Double) {
+        print("Paid $\(amount) via Apple Pay.")
+    }
+}
+
+// Context class that uses the strategy
+class ShoppingCart {
+    private var paymentStrategy: PaymentStrategy?
+    
+    func setPaymentStrategy(strategy: PaymentStrategy) {
+        paymentStrategy = strategy
+    }
+    
+    func checkout(amount: Double) {
+        paymentStrategy?.pay(amount: amount)
+    }
+}
+
+// Usage example
+let shoppingCart = ShoppingCart()
+
+// Choose a payment strategy
+let creditCardStrategy = CreditCardPayment()
+shoppingCart.setPaymentStrategy(strategy: creditCardStrategy)
+shoppingCart.checkout(amount: 100.0)
+
+let payPalStrategy = PayPalPayment()
+shoppingCart.setPaymentStrategy(strategy: payPalStrategy)
+shoppingCart.checkout(amount: 50.0)

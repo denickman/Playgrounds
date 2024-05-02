@@ -1,0 +1,65 @@
+
+
+Overall, the Factory pattern promotes good software design principles such as
+encapsulation, abstraction, code reusability, and separation of concerns.
+It is especially useful in scenarios where object creation is complex,
+dynamic, or subject to change, as it provides a flexible
+and maintainable approach to object instantiation.
+
+
+// Protocol defining different shapes
+protocol Shape {
+    func draw()
+}
+
+// Concrete implementations of shapes
+struct Circle: Shape {
+    func draw() {
+        print("Drawing Circle")
+    }
+}
+
+struct Square: Shape {
+    func draw() {
+        print("Drawing Square")
+    }
+}
+
+struct Triangle: Shape {
+    func draw() {
+        print("Drawing Triangle")
+    }
+}
+
+// Factory class to create instances of shapes
+class ShapeFactory {
+    // Enum to define different types of shapes
+    enum ShapeType {
+        case circle
+        case square
+        case triangle
+    }
+    
+    // Factory method to create shapes based on type
+    func createShape(type: ShapeType) -> Shape {
+        switch type {
+        case .circle:
+            return Circle()
+        case .square:
+            return Square()
+        case .triangle:
+            return Triangle()
+        }
+    }
+}
+
+// Usage example
+let factory = ShapeFactory()
+let circle = factory.createShape(type: .circle)
+circle.draw()
+
+let square = factory.createShape(type: .square)
+square.draw()
+
+let triangle = factory.createShape(type: .triangle)
+triangle.draw()

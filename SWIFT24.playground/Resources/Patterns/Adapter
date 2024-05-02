@@ -1,0 +1,43 @@
+
+
+This pattern allows us to integrate and use the legacy notification system
+seamlessly with the modern notification system without modifying
+the legacy code directly. The adapter acts as a bridge between the two systems,
+ensuring compatibility and smooth communication.
+
+The Adapter pattern is used primarily for integrating or
+making incompatible interfaces work together.
+
+
+
+// Legacy notification system
+class LegacyNotification {
+    func sendNotification(message: String) {
+        print("Legacy Notification: \(message)")
+    }
+}
+
+// Modern notification system
+protocol ModernNotification {
+    func sendNotification(message: String)
+}
+
+// Adapter: Adapts LegacyNotification to conform to ModernNotification
+class NotificationAdapter: ModernNotification {
+    private let legacyNotification: LegacyNotification
+    
+    init(legacyNotification: LegacyNotification) {
+        self.legacyNotification = legacyNotification
+    }
+    
+    func sendNotification(message: String) {
+        legacyNotification.sendNotification(message: message)
+    }
+}
+
+// Usage example
+let legacyNotifier = LegacyNotification()
+let adapter = NotificationAdapter(legacyNotification: legacyNotifier)
+
+// Now we can use the adapter to send notifications using the modern system
+adapter.sendNotification(message: "Hello from Adapter Pattern!")

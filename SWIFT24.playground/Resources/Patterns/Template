@@ -1,0 +1,59 @@
+
+The Template Method pattern defines the skeleton of an algorithm in a method,
+deferring some steps to subclasses. It allows subclasses to redefine
+certain steps of an algorithm without changing its structure.
+
+The purpose of the Template Method pattern is to define the overall structure of an algorithm in a method while allowing subclasses to provide specific implementations for certain steps. This promotes code reuse and flexibility by enabling different variations of the algorithm without duplicating code or altering the core structure. It also helps in enforcing a consistent algorithm structure across subclasses.
+
+// Abstract class defining the template method
+class Recipe {
+    // Template method defining the algorithm
+    func prepareRecipe() {
+        prepareIngredients()
+        cook()
+        serve()
+    }
+    
+    // Abstract methods to be implemented by subclasses
+    func prepareIngredients() {
+        fatalError("Abstract method. Subclasses must implement prepareIngredients.")
+    }
+    
+    func cook() {
+        fatalError("Abstract method. Subclasses must implement cook.")
+    }
+    
+    func serve() {
+        print("Serve the dish.")
+    }
+}
+
+// Concrete subclass implementing the template method
+class SpaghettiRecipe: Recipe {
+    override func prepareIngredients() {
+        print("Prepare spaghetti noodles, sauce, and meatballs.")
+    }
+    
+    override func cook() {
+        print("Cook spaghetti noodles, heat sauce, and cook meatballs.")
+    }
+}
+
+// Concrete subclass implementing the template method
+class PancakeRecipe: Recipe {
+    override func prepareIngredients() {
+        print("Prepare pancake mix and toppings.")
+    }
+    
+    override func cook() {
+        print("Cook pancakes on a griddle and add toppings.")
+    }
+}
+
+// Usage example
+let spaghettiRecipe = SpaghettiRecipe()
+spaghettiRecipe.prepareRecipe()
+print("---")
+
+let pancakeRecipe = PancakeRecipe()
+pancakeRecipe.prepareRecipe()

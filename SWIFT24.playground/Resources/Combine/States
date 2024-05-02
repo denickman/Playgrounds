@@ -1,0 +1,107 @@
+
+@State: Used to store simple view-related state within a view. It is appropriate for storing local, temporary state that doesn't need to persist beyond the view's lifecycle. Changes to @State properties trigger view updates.
+
+struct ContentView: View {
+    @State private var isPresented = false
+    
+    var body: some View {
+        Button("Show Modal") {
+            isPresented.toggle()
+        }
+        .sheet(isPresented: $isPresented) {
+            ModalView()
+        }
+    }
+}
+
+
+@Published is a property wrapper in SwiftUI that automatically publishes changes to the property it wraps. When you mark a property with @Published, SwiftUI creates a publisher for that property, allowing you to subscribe to changes to that property.
+
+
+class CounterModel: ObservableObject {
+    @Published var count: Int = 0
+}
+
+struct CounterView: View {
+    @ObservedObject var counter: CounterModel
+    
+    var body: some View {
+        Text("Counter: \(counter.count)")
+            .padding()
+    }
+}
+
+
+
+
+
+
+@StateObject: Used to create and manage an instance of an ObservableObject within a view. It ensures that the object is retained and properly managed by SwiftUI, persisting across view updates.
+
+
+class ViewModel: ObservableObject {
+    @Published var text = "Hello, World!"
+}
+
+struct ContentView: View {
+    @StateObject private var viewModel = ViewModel()
+    
+    var body: some View {
+        Text(viewModel.text)
+            .onTapGesture {
+                viewModel.text = "Tapped!"
+            }
+    }
+}
+
+
+
+
+@ObservedObject: Used to observe and react to changes in an ObservableObject within a view. It is used when you want a view to update based on changes in an external data source.
+
+struct ContentView: View {
+    @ObservedObject var viewModel: ViewModel
+    
+    var body: some View {
+        Text(viewModel.text)
+            .onTapGesture {
+                viewModel.text = "Tapped!"
+            }
+    }
+}
+
+
+
+
+
+
+@Environment: Used to access values that are stored in the environment of a view hierarchy, such as the current color scheme, locale, or other settings. It provides a way to pass data implicitly down the view hierarchy.
+
+struct ContentView: View {
+    @Environment(\.colorScheme) var colorScheme
+    
+    var body: some View {
+        Text("Current color scheme: \(colorScheme)")
+    }
+}
+
+
+
+@Binding: Used for creating a two-way connection between a child view and a parent view. It allows a child view to modify a value stored in a parent view.
+
+struct ContentView: View {
+    @State private var text = ""
+    
+    var body: some View {
+        ChildView(text: $text)
+    }
+}
+
+struct ChildView: View {
+    @Binding var text: String
+    
+    var body: some View {
+        TextField("Enter text", text: $text)
+    }
+}
+

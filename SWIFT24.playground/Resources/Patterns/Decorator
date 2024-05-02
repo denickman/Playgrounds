@@ -1,0 +1,59 @@
+
+The Decorator pattern is used to dynamically add new functionalities to an object
+without altering its structure. It's useful when you want to extend the behavior
+of an object at runtime without subclassing.
+
+
+// Component protocol representing the base text
+protocol Text {
+    func display() -> String
+}
+
+// Concrete component representing plain text
+class PlainText: Text {
+    func display() -> String {
+        return "This is plain text."
+    }
+}
+
+// Decorator protocol
+protocol TextDecorator: Text {
+    var text: Text { get }
+    init(text: Text)
+}
+
+// Concrete decorator adding bold style to the text
+class BoldDecorator: TextDecorator {
+    let text: Text
+    
+    required init(text: Text) {
+        self.text = text
+    }
+    
+    func display() -> String {
+        return "<b>\(text.display())</b>"
+    }
+}
+
+// Concrete decorator adding italic style to the text
+class ItalicDecorator: TextDecorator {
+    let text: Text
+    
+    required init(text: Text) {
+        self.text = text
+    }
+    
+    func display() -> String {
+        return "<i>\(text.display())</i>"
+    }
+}
+
+// Usage example
+var text: Text = PlainText()
+print("Original Text: \(text.display())")
+
+text = BoldDecorator(text: text)
+print("Decorated Text (Bold): \(text.display())")
+
+text = ItalicDecorator(text: text)
+print("Decorated Text (Bold + Italic): \(text.display())")

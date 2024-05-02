@@ -1,0 +1,82 @@
+
+The Command pattern is used to encapsulate a request as an object,
+thereby allowing for parameterization of clients with different requests,
+queuing of requests, and logging of requests,
+as well as supporting undoable operations.
+
+The purpose of the Command pattern is to decouple the sender (invoker)
+from the receiver (receiver) by encapsulating a request as an object.
+This allows for flexibility in executing commands,
+such as queuing commands, logging commands,
+or supporting undoable operations. It also enables easy addition
+of new commands without modifying existing code,
+promoting code extensibility and maintainability.
+
+
+// Receiver: Represents the object that performs the actual action
+class Light {
+    func turnOn() {
+        print("Light is turned on")
+    }
+    
+    func turnOff() {
+        print("Light is turned off")
+    }
+}
+
+// Command protocol
+protocol Command {
+    func execute()
+}
+
+// Concrete command to turn on the light
+class TurnOnCommand: Command {
+    private let light: Light
+    
+    init(light: Light) {
+        self.light = light
+    }
+    
+    func execute() {
+        light.turnOn()
+    }
+}
+
+// Concrete command to turn off the light
+class TurnOffCommand: Command {
+    private let light: Light
+    
+    init(light: Light) {
+        self.light = light
+    }
+    
+    func execute() {
+        light.turnOff()
+    }
+}
+
+// Invoker: Responsible for executing commands
+class RemoteControl {
+    private var command: Command?
+    
+    func setCommand(command: Command) {
+        self.command = command
+    }
+    
+    func pressButton() {
+        command?.execute()
+    }
+}
+
+// Usage example
+let light = Light()
+let turnOnCommand = TurnOnCommand(light: light)
+let turnOffCommand = TurnOffCommand(light: light)
+
+let remoteControl = RemoteControl()
+
+remoteControl.setCommand(command: turnOnCommand)
+remoteControl.pressButton() // Output: Light is turned on
+
+remoteControl.setCommand(command: turnOffCommand)
+remoteControl.pressButton() // Output: Light is turned off
